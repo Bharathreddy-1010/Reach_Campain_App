@@ -779,6 +779,270 @@ export class ReachieService {
   }
 
   /**
+   * Intelligently generates a context-relevant 1-2 sentence short description
+   * derived directly from the campaign's title and category.
+   */
+  public static generateContextualSummary(title: string, category?: string): string {
+    const t = (title || '').toLowerCase();
+    const c = (category || '').toLowerCase();
+
+    // 1. Water / Sanitation / Aquifer / Rivers / Lakes / Drinking Water (Highest priority for water topics)
+    if (
+      t.includes('water') ||
+      t.includes('river') ||
+      t.includes('lake') ||
+      t.includes('pond') ||
+      t.includes('aquifer') ||
+      t.includes('sanitat') ||
+      t.includes('borewell') ||
+      t.includes('fluoride') ||
+      t.includes('drink') ||
+      t.includes('clean water')
+    ) {
+      return 'Installing clean solar-powered water filtration units and regular safety testing to secure safe drinking water for every household.';
+    }
+
+    // 2. Green Environment / Trees / Forests / Heatwaves / Climate
+    if (
+      t.includes('tree') ||
+      t.includes('forest') ||
+      t.includes('canopy') ||
+      t.includes('heat') ||
+      t.includes('green') ||
+      t.includes('plant') ||
+      t.includes('climat') ||
+      t.includes('solar') ||
+      t.includes('pollution') ||
+      t.includes('clean air')
+    ) {
+      return 'Planting native shade trees and expanding urban green canopies to mitigate summer heatwaves and purify air quality.';
+    }
+
+    // 3. Cyber Safety / Anti-Scam / Senior Protection / Digital Fraud
+    if (
+      t.includes('scam') ||
+      t.includes('cyber') ||
+      t.includes('fraud') ||
+      t.includes('senior') ||
+      t.includes('elder') ||
+      t.includes('arrest') ||
+      t.includes('phish') ||
+      t.includes('safe')
+    ) {
+      return 'Educating seniors and families on how to detect and immediately halt cyber frauds, digital arrest scams, and phishing threats.';
+    }
+
+    // 4. Animal Welfare / Pets / Stray Dogs / Rescue
+    if (
+      t.includes('animal') ||
+      t.includes('dog') ||
+      t.includes('cat') ||
+      t.includes('pet') ||
+      t.includes('stray') ||
+      t.includes('shelter') ||
+      t.includes('rescue') ||
+      t.includes('wildlife')
+    ) {
+      return 'Rescuing abandoned street animals, providing emergency veterinary care, and creating community feeding and foster networks.';
+    }
+
+    // 5. Local Retail / Small Business / Kirana / Fair Trade
+    if (
+      t.includes('retail') ||
+      t.includes('kirana') ||
+      t.includes('shop') ||
+      t.includes('store') ||
+      t.includes('market') ||
+      t.includes('farmer') ||
+      t.includes('trade')
+    ) {
+      return 'Advocating for fair market transparency and safeguarding neighborhood family-owned retail stores against predatory trade practices.';
+    }
+
+    // 6. Education / Schools / Students / Learning / Books / Digital Classrooms
+    if (
+      t.includes('educat') ||
+      t.includes('school') ||
+      t.includes('student') ||
+      t.includes('learn') ||
+      t.includes('teach') ||
+      t.includes('literac') ||
+      t.includes('class') ||
+      t.includes('book') ||
+      t.includes('librar')
+    ) {
+      return 'Equipping underprivileged rural schools with digital learning labs, e-libraries, and essential classroom tools.';
+    }
+
+    // 7. Health / Medical / Clinics / Hospitals / Mental Health (when not water)
+    if (
+      t.includes('health') ||
+      t.includes('clinic') ||
+      t.includes('medic') ||
+      t.includes('hospit') ||
+      t.includes('disease') ||
+      t.includes('mental') ||
+      t.includes('doctor')
+    ) {
+      return 'Expanding mobile primary health clinics and access to essential diagnostics and medicines in remote rural villages.';
+    }
+
+    // 8. Fallback to Category if title had generic words
+    if (c === 'education') {
+      return 'Equipping underprivileged rural schools with digital learning labs, e-libraries, and essential classroom tools.';
+    }
+    if (c === 'health') {
+      return 'Expanding mobile primary health clinics and access to essential diagnostics and medicines in remote rural villages.';
+    }
+    if (c === 'environment') {
+      return 'Mobilizing verified environmental protection, sustainable conservation, and community greening programs.';
+    }
+    if (c === 'community') {
+      return `Empowering community awareness and grassroots collective action for ${title || 'this initiative'}.`;
+    }
+    if (c === 'public policy' || c === 'economic policy') {
+      return `Broadcasting verified policy research, independent economic data, and civic awareness for ${title || 'this initiative'}.`;
+    }
+    if (c === 'arts & culture') {
+      return 'Preserving indigenous artistic heritage, local cultural archives, and grassroots artisan livelihoods.';
+    }
+    if (c === 'science') {
+      return 'Supporting open-access citizen science, scientific literacy, and community-driven empirical research.';
+    }
+
+    return `Empowering public awareness, transparent civic action, and direct grassroots impact for ${title || 'this initiative'}.`;
+  }
+
+  /**
+   * Intelligently generates a context-relevant 2-3 sentence full campaign story
+   * derived directly from the campaign's title and category.
+   */
+  public static generateContextualStory(title: string, category?: string): string {
+    const t = (title || '').toLowerCase();
+    const c = (category || '').toLowerCase();
+
+    // 1. Water / Sanitation / Aquifer / Rivers / Lakes
+    if (
+      t.includes('water') ||
+      t.includes('river') ||
+      t.includes('lake') ||
+      t.includes('pond') ||
+      t.includes('aquifer') ||
+      t.includes('sanitat') ||
+      t.includes('borewell') ||
+      t.includes('fluoride') ||
+      t.includes('drink') ||
+      t.includes('clean water')
+    ) {
+      return 'Unsafe drinking water and industrial runoff threaten the health of local families and vulnerable children across our district. Our campaign funds certified water testing kits, solar-powered filtration kiosks, and community maintenance teams. With verified water quality audits, we ensure transparent, lasting access to pure water.';
+    }
+
+    // 2. Green Environment / Trees / Forests / Heatwaves / Climate
+    if (
+      t.includes('tree') ||
+      t.includes('forest') ||
+      t.includes('canopy') ||
+      t.includes('heat') ||
+      t.includes('green') ||
+      t.includes('plant') ||
+      t.includes('climat') ||
+      t.includes('solar') ||
+      t.includes('pollution') ||
+      t.includes('clean air')
+    ) {
+      return 'Rapid urban expansion and loss of greenery have caused local summer temperatures to surge to dangerous extremes, trapping heat in asphalt and concrete. We are planting drought-resilient native trees and setting up drip-irrigation networks managed by community volunteers. This initiative creates natural cooling corridors and restores neighborhood biodiversity.';
+    }
+
+    // 3. Cyber Safety / Anti-Scam / Senior Protection / Digital Fraud
+    if (
+      t.includes('scam') ||
+      t.includes('cyber') ||
+      t.includes('fraud') ||
+      t.includes('senior') ||
+      t.includes('elder') ||
+      t.includes('arrest') ||
+      t.includes('phish') ||
+      t.includes('safe')
+    ) {
+      return 'Cybercriminals increasingly target elderly citizens through sophisticated intimidation tactics, fake utility disconnections, and impersonation fraud. Our campaign distributes vernacular physical fraud-prevention handbooks and conducts hands-on workshops in residential colonies. We empower families with verified defense steps and 24/7 incident helpline access.';
+    }
+
+    // 4. Animal Welfare / Pets / Stray Dogs / Rescue
+    if (
+      t.includes('animal') ||
+      t.includes('dog') ||
+      t.includes('cat') ||
+      t.includes('pet') ||
+      t.includes('stray') ||
+      t.includes('shelter') ||
+      t.includes('rescue') ||
+      t.includes('wildlife')
+    ) {
+      return 'Injured and stray animals often suffer without basic medical attention, food, or shelter in bustling urban areas. We are setting up emergency treatment facilities, mobile sterilization units, and a dedicated network of community caretakers. Our goal is a compassionate, vaccinated, and well-cared-for animal population in every neighborhood.';
+    }
+
+    // 5. Local Retail / Small Business / Kirana / Fair Trade
+    if (
+      t.includes('retail') ||
+      t.includes('kirana') ||
+      t.includes('shop') ||
+      t.includes('store') ||
+      t.includes('market') ||
+      t.includes('farmer') ||
+      t.includes('trade')
+    ) {
+      return 'Neighborhood family-owned businesses are facing unprecedented pressure from monopolistic delivery algorithms and below-cost price dumping. This initiative provides local shopkeepers with shared digital storefronts, supply chain bargaining power, and legal advocacy. We protect community livelihood and maintain vibrant local commerce.';
+    }
+
+    // 6. Education / Schools / Students / Learning / Books
+    if (
+      t.includes('educat') ||
+      t.includes('school') ||
+      t.includes('student') ||
+      t.includes('learn') ||
+      t.includes('teach') ||
+      t.includes('literac') ||
+      t.includes('class') ||
+      t.includes('book') ||
+      t.includes('librar')
+    ) {
+      return 'Over 60% of rural schools lack reliable digital infrastructure and modern science resources. This campaign directly funds solar-powered computer stations, interactive educational software, and teacher training to ensure equal learning opportunities for every student.';
+    }
+
+    // 7. Health / Medical / Clinics / Hospitals / Mental Health (when not water)
+    if (
+      t.includes('health') ||
+      t.includes('clinic') ||
+      t.includes('medic') ||
+      t.includes('hospit') ||
+      t.includes('disease') ||
+      t.includes('mental') ||
+      t.includes('doctor')
+    ) {
+      return 'Rural primary care centers frequently face acute shortages of diagnostic equipment and life-saving medicines. This initiative deploys fully-equipped mobile healthcare vans and trained paramedics to bring regular checkups and emergency care directly to underserved villages.';
+    }
+
+    // 8. Fallback to Category
+    if (c === 'education') {
+      return 'Over 60% of rural schools lack reliable digital infrastructure and modern science resources. This campaign directly funds solar-powered computer stations, interactive educational software, and teacher training to ensure equal learning opportunities for every student.';
+    }
+    if (c === 'health') {
+      return 'Rural primary care centers frequently face acute shortages of diagnostic equipment and life-saving medicines. This initiative deploys fully-equipped mobile healthcare vans and trained paramedics to bring regular checkups and emergency care directly to underserved villages.';
+    }
+    if (c === 'environment') {
+      return 'Vulnerable ecosystems face rapid degradation from pollution and unsustainable resource exploitation. This initiative unites local volunteers, scientific monitors, and community leaders to restore natural habitats with transparent monitoring.';
+    }
+    if (c === 'community') {
+      return `Local neighborhoods thrive when residents unite to address urgent civic challenges with transparent community oversight. This campaign organizes on-the-ground volunteer networks, essential resources, and verified milestone reporting for ${title || 'this initiative'}.`;
+    }
+    if (c === 'public policy' || c === 'economic policy') {
+      return `Citizens often lack transparent access to independent data on critical policy and economic decisions affecting their livelihoods. Our campaign publishes peer-reviewed research, public fact sheets, and grassroots forums to drive accountable governance.`;
+    }
+
+    return `Across communities, verified documentation and organized citizen action remain essential to drive meaningful change. This campaign funds targeted digital distribution of peer-reviewed evidence and alerts to support ${title || 'this initiative'}.`;
+  }
+
+  /**
    * Extract conversational short descriptions
    */
   public static cleanExtractedSummary(raw: string): string {
@@ -786,10 +1050,13 @@ export class ReachieService {
     let clean = raw.trim();
 
     clean = clean.replace(
-      /^(?:show|display|set|keep|make|write|enter|put)?\s*(?:can\s+you\s+|please\s+|could\s+you\s+|you\s+can\s+|i\s+say\s+|i\s+would\s+say\s+)?(?:so\s*[,:]?\s*)?(?:the\s+)?(?:short\s+)?(?:description|summary)(?:\s+(?:of|for)\s+(?:the|this|my)?\s*campaign)?\s*[,:]?\s*(?:is|should\s+be|would\s+be|to|as|:)?\s*[,:]?\s*/i,
+      /^(?:show|display|set|keep|make|write|enter|put|fill)?\s*(?:can\s+you\s+|please\s+|could\s+you\s+|you\s+can\s+|i\s+say\s+|i\s+would\s+say\s+)?(?:so\s*[,:]?\s*)?(?:the\s+)?(?:short\s+)?(?:description|summary)(?:\s+(?:of|for)\s+(?:the|this|my)?\s*campaign)?\s*[,:]?\s*(?:is|should\s+be|would\s+be|to|as|:)?\s*[,:]?\s*/i,
       ''
     );
-    clean = clean.replace(/^(?:as\s+)?according\s+to\s+(?:the\s+)?(?:education|health|environment|topic)?\s*/i, '');
+    clean = clean.replace(
+      /^(?:fill|keep|make|write|set)?\s*(?:as\s+)?according\s+to\s+(?:the\s+)?(?:title|name|topic|cause|category|education|health|environment)?\s*/i,
+      ''
+    );
     clean = clean.replace(/^(?:so\s*[,:]?\s*)?(?:of\s+(?:the|this|my)\s+campaign\s+(?:is\s+)?)/i, '');
     clean = clean.replace(/^(?:so\s*[,:]?\s*)?(?:it's\s+about|it\s+is\s+about|about)\s+/i, '');
     clean = clean.replace(/^(?:show|so)\s*[,:]?\s*/i, '');
@@ -809,11 +1076,16 @@ export class ReachieService {
     let clean = raw.trim();
 
     clean = clean.replace(
-      /^(?:can\s+you\s+|please\s+|could\s+you\s+|you\s+can\s+|i\s+say\s+|i\s+would\s+say\s+)?(?:so\s*[,:]?\s*)?(?:the\s+)?(?:full\s+)?(?:description|story|details?)(?:\s+(?:of|for)\s+(?:the|this|my)?\s*campaign)?\s*[,:]?\s*(?:is|should\s+be|would\s+be|to|as|:)?\s*[,:]?\s*/i,
+      /^(?:show|display|set|keep|make|write|enter|put|fill)?\s*(?:can\s+you\s+|please\s+|could\s+you\s+|you\s+can\s+|i\s+say\s+|i\s+would\s+say\s+)?(?:so\s*[,:]?\s*)?(?:the\s+)?(?:full\s+)?(?:campaign\s+)?(?:description|story|details?)(?:\s+(?:of|for)\s+(?:the|this|my)?\s*campaign)?\s*[,:]?\s*(?:is|should\s+be|would\s+be|to|as|:)?\s*[,:]?\s*/i,
+      ''
+    );
+    clean = clean.replace(
+      /^(?:fill|keep|make|write|set)?\s*(?:as\s+)?according\s+to\s+(?:the\s+)?(?:title|name|topic|cause|category|description|summary|education|health|environment)?\s*/i,
       ''
     );
     clean = clean.replace(/^(?:so\s*[,:]?\s*)?(?:of\s+(?:the|this|my)\s+campaign\s+(?:is\s+)?)/i, '');
-    clean = clean.replace(/^so\s*[,:]?\s*/i, '');
+    clean = clean.replace(/^(?:so\s*[,:]?\s*)?(?:it's\s+about|it\s+is\s+about|about)\s+/i, '');
+    clean = clean.replace(/^(?:show|so)\s*[,:]?\s*/i, '');
     clean = clean.replace(/^["'`]+|["'`]+$/g, '').trim();
 
     if (clean.length > 0) {
@@ -1528,7 +1800,10 @@ export class ReachieService {
 
     // STAGE 2a: asking_summary (Short description <= 150 chars)
     if (stage === 'asking_summary') {
-      const isAuto = this.isAutoFillOrKeep(lower);
+      const isAuto =
+        this.isAutoFillOrKeep(lower) ||
+        lower.includes('according to') ||
+        (lower.includes('title') && lower.includes('fill'));
       const cleanSummary = this.cleanExtractedSummary(text);
       let summary = '';
 
@@ -1540,17 +1815,9 @@ export class ReachieService {
         cleanSummary.toLowerCase() === 'environment' ||
         cleanSummary.length < 5
       ) {
-        if (staged.category === 'Education' || staged.title?.toLowerCase().includes('educat')) {
-          summary = 'Equipping underprivileged rural schools with digital learning labs, e-libraries, and essential classroom tools.';
-        } else if (staged.category === 'Health' || staged.title?.toLowerCase().includes('health')) {
-          summary = 'Expanding mobile primary health clinics and access to essential medicines in remote rural villages.';
-        } else if (staged.category === 'Environment' || staged.title?.toLowerCase().includes('water')) {
-          summary = 'Installing clean solar-powered water filtration units to protect rural drinking water supplies.';
-        } else {
-          summary = `Empowering public awareness and transparent community action for ${staged.title || 'this initiative'}.`;
-        }
+        summary = this.generateContextualSummary(staged.title || '', staged.category);
       } else {
-        summary = cleanSummary || `Empowering public awareness for ${staged.title || 'this initiative'}.`;
+        summary = cleanSummary || this.generateContextualSummary(staged.title || '', staged.category);
       }
 
       staged.summary = summary;
@@ -1577,22 +1844,17 @@ export class ReachieService {
 
     // STAGE 2b: asking_story (Full campaign description)
     if (stage === 'asking_story') {
-      const isAuto = this.isAutoFillOrKeep(lower);
+      const isAuto =
+        this.isAutoFillOrKeep(lower) ||
+        lower.includes('according to') ||
+        (lower.includes('title') && lower.includes('fill'));
       const cleanStory = this.cleanExtractedStory(text);
       let story = '';
 
-      if (isAuto || this.isAutoFillOrKeep(cleanStory)) {
-        if (staged.category === 'Education' || staged.title?.toLowerCase().includes('educat')) {
-          story = 'Over 60% of rural schools lack reliable digital infrastructure and modern science resources. This campaign directly funds solar-powered computer stations, interactive educational software, and teacher training to ensure equal learning opportunities for every student.';
-        } else if (staged.category === 'Health' || staged.title?.toLowerCase().includes('health')) {
-          story = 'Rural primary care centers frequently face acute shortages of diagnostic equipment and life-saving medicines. This initiative deploys fully-equipped mobile healthcare vans and trained paramedics to bring regular checkups and emergency care directly to underserved villages.';
-        } else if (staged.category === 'Environment' || staged.title?.toLowerCase().includes('water')) {
-          story = 'Contaminated ground water poses a severe public health crisis in rural farming belts. Our initiative installs sustainable community filtration systems and conducts water safety monitoring to guarantee safe drinking water for over 5,000 families.';
-        } else {
-          story = `Across communities, reliable access and verified documentation remain the critical gap. This campaign funds targeted digital distribution of peer-reviewed evidence and alerts to support ${staged.title || 'this initiative'}.`;
-        }
+      if (isAuto || this.isAutoFillOrKeep(cleanStory) || cleanStory.length < 15) {
+        story = this.generateContextualStory(staged.title || '', staged.category);
       } else {
-        story = cleanStory || `Across communities, verified documentation is essential to support ${staged.title || 'this initiative'}.`;
+        story = cleanStory || this.generateContextualStory(staged.title || '', staged.category);
       }
 
       staged.whatItIsAbout = story;
@@ -1863,6 +2125,8 @@ export class ReachieService {
     };
     const currentStep = staged.currentStep || 1;
     const currentStage = context.campaignCreationStage || 'idle';
+    const titleVal = staged.title || '';
+    const categoryVal = staged.category || '';
 
     const systemPrompt = `You are Reachie, an intelligent, warm, concise, and proactive AI voice & chat assistant for Reach (a civic amplification mobile app).
 
@@ -1871,8 +2135,10 @@ CRITICAL CONVERSATIONAL RULES:
 2. NEVER blindly echo user conversational filler into fields! INTELLIGENTLY DECIDE AND EXTRACT THE ACTUAL VALUE:
    - If user says "So the title of the campaign is education", "the title of the campaign is education", "show the title is education", or "call it education" -> clean title is "Education". Remove all conversational filler like "of the campaign is", "so the title of the campaign is", etc.
    - If user says "So the category of the campaign is education", "the category is education", or "education" -> category is "Education".
-   - If user says "so keep the short description as according to the education", "fill something you like", "keep whatever you need", or asks you to decide -> DO NOT repeat their filler! THINK and PROACTIVELY GENERATE a compelling 1-2 sentence short description for their campaign (e.g. "Equipping underprivileged rural schools with digital learning labs, e-libraries, and classroom tools.").
-   - If user asks for story or says "keep according to education" or asks you to decide -> GENERATE a complete, powerful 2-3 sentence story explaining the challenge, the initiative, and the community impact.
+   - If user says "Fill according to the title", "according to the title", "fill something you like", "keep whatever you need", or asks you to decide/generate summary ->
+     * YOU MUST GENERATE a compelling 1-2 sentence short description specifically tailored to the campaign title ("${titleVal || 'the campaign'}") and category ("${categoryVal || 'general'}").
+     * CRITICAL: ALWAYS MATCH THE TITLE'S TOPIC! If the title is about water (e.g. "Clean Waters, Healthy Future"), generate a summary about water filtration, clean drinking water, and testing. If about healthcare/clinics, generate about health. If about trees/environment, generate about urban canopy/trees. NEVER output an education summary if the title is about water or another topic!
+   - If user asks for story or says "Fill according to the title" / "keep according to title" / asks you to decide -> GENERATE a complete, powerful 2-3 sentence story explaining the challenge, the initiative, and the community impact 100% SPECIFIC TO title ("${titleVal || 'the campaign'}") and category ("${categoryVal || 'general'}").
    - If user provides funding goal -> parse numbers (e.g. "50k" -> 50000, "twenty five thousand" -> 25000).
    - If user asks for audience -> suggest/save realistic target audience (e.g. "Educators, parents, and community supporters across India").
    - You MUST decide the clean, professional value for each field without conversational baggage or user framing phrases.
@@ -1908,6 +2174,9 @@ CURRENT APP CONTEXT:
 - Route: "${context.currentRoute}"
 - Stage: "${currentStage}"
 - Active Step: ${currentStep}
+- ACTIVE CAMPAIGN TITLE: "${titleVal || '(not set yet)'}"
+- ACTIVE CAMPAIGN CATEGORY: "${categoryVal || '(not set yet)'}"
+- ACTIVE CAMPAIGN SUMMARY: "${staged.summary || '(not set yet)'}"
 - Active Draft: ${JSON.stringify({
     title: staged.title || '',
     category: staged.category || '',

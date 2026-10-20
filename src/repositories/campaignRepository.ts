@@ -743,6 +743,17 @@ export const CampaignRepository = {
         timestamp: new Date().toISOString(),
         read: false,
       });
+    } else if (newStatus === 'funding_reached') {
+      updated.funding.raised = updated.funding.goal;
+      await this.addNotification({
+        id: `notif_${Date.now()}`,
+        type: 'funding_milestone',
+        title: 'Funding Goal Achieved!',
+        message: `"${campaign.title}" has reached 100% of its funding goal and is ready for live distribution!`,
+        campaignId: campaign.id,
+        timestamp: new Date().toISOString(),
+        read: false,
+      });
     } else if (newStatus === 'promoting') {
       await this.addNotification({
         id: `notif_${Date.now()}`,

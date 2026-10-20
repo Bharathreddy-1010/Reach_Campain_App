@@ -45,6 +45,7 @@ type CreatorTab =
 export default function CreatorDashboardScreen() {
   const { colors, theme, themeId } = useTheme();
   const isGlass = themeId === 'glassmorphism';
+  const isDark = Boolean(theme?.isDark);
   const router = useRouter();
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -468,8 +469,39 @@ export default function CreatorDashboardScreen() {
               </View>
 
               {/* Deterministic Demo Review Actions */}
-              <View style={styles.demoReviewSection}>
-                <Text style={styles.demoReviewLabel}>Demo Review Simulator:</Text>
+              <View
+                style={[
+                  styles.demoReviewSection,
+                  {
+                    backgroundColor: isGlass
+                      ? 'rgba(255, 255, 255, 0.04)'
+                      : colors.surfaceSubtle,
+                    borderColor: isGlass ? colors.glassBorder : colors.borderLight,
+                  },
+                ]}
+              >
+                <View style={styles.demoReviewHeader}>
+                  <View style={styles.demoReviewTitleRow}>
+                    <Play size={11} color={colors.primary} />
+                    <Text style={[styles.demoReviewLabel, { color: colors.textPrimary }]}>
+                      Demo Workflow Controls
+                    </Text>
+                  </View>
+                  <Text style={[styles.demoReviewSub, { color: colors.textMuted }]}>
+                    {camp.status === 'submitted'
+                      ? 'Simulate review outcome'
+                      : camp.status === 'funding'
+                      ? 'Simulate goal completion'
+                      : camp.status === 'funding_reached'
+                      ? 'Simulate ad deployment'
+                      : camp.status === 'promoting'
+                      ? 'Simulate campaign delivery'
+                      : camp.status === 'changes_requested'
+                      ? 'Simulate revision approval'
+                      : 'Completed'}
+                  </Text>
+                </View>
+
                 <View style={styles.demoBtnRow}>
                   {camp.status === 'submitted' && (
                     <>
@@ -477,10 +509,25 @@ export default function CreatorDashboardScreen() {
                         onPress={() =>
                           handleSimulateStatus(camp.id, 'approved', 'Cleared factual verification.')
                         }
-                        style={[styles.simBtn, styles.simApprove]}
+                        style={[
+                          styles.simBtn,
+                          styles.simApprove,
+                          isDark && {
+                            backgroundColor: 'rgba(16, 185, 129, 0.16)',
+                            borderColor: '#059669',
+                          },
+                        ]}
+                        activeOpacity={0.7}
                       >
-                        <CheckCircle size={12} color={Colors.success} />
-                        <Text style={styles.simBtnText}>Simulate Approval</Text>
+                        <CheckCircle size={14} color={isDark ? '#6EE7B7' : '#065F46'} />
+                        <Text
+                          style={[
+                            styles.simApproveText,
+                            isDark && { color: '#6EE7B7' },
+                          ]}
+                        >
+                          Simulate Approval
+                        </Text>
                       </TouchableOpacity>
 
                       <TouchableOpacity
@@ -491,12 +538,58 @@ export default function CreatorDashboardScreen() {
                             'Please provide direct peer-reviewed URL for statistics.'
                           )
                         }
-                        style={[styles.simBtn, styles.simChanges]}
+                        style={[
+                          styles.simBtn,
+                          styles.simChanges,
+                          isDark && {
+                            backgroundColor: 'rgba(245, 158, 11, 0.16)',
+                            borderColor: '#D97706',
+                          },
+                        ]}
+                        activeOpacity={0.7}
                       >
-                        <AlertTriangle size={12} color={Colors.warning} />
-                        <Text style={styles.simBtnText}>Request Changes</Text>
+                        <AlertTriangle size={14} color={isDark ? '#FCD34D' : '#92400E'} />
+                        <Text
+                          style={[
+                            styles.simChangesText,
+                            isDark && { color: '#FCD34D' },
+                          ]}
+                        >
+                          Request Changes
+                        </Text>
                       </TouchableOpacity>
                     </>
+                  )}
+
+                  {camp.status === 'funding' && (
+                    <TouchableOpacity
+                      onPress={() =>
+                        handleSimulateStatus(
+                          camp.id,
+                          'funding_reached',
+                          '100% of community funding goal reached.'
+                        )
+                      }
+                      style={[
+                        styles.simBtn,
+                        styles.simApprove,
+                        isDark && {
+                          backgroundColor: 'rgba(16, 185, 129, 0.16)',
+                          borderColor: '#059669',
+                        },
+                      ]}
+                      activeOpacity={0.7}
+                    >
+                      <TrendingUp size={14} color={isDark ? '#6EE7B7' : '#065F46'} />
+                      <Text
+                        style={[
+                          styles.simApproveText,
+                          isDark && { color: '#6EE7B7' },
+                        ]}
+                      >
+                        Simulate 100% Funded
+                      </Text>
+                    </TouchableOpacity>
                   )}
 
                   {camp.status === 'funding_reached' && (
@@ -508,10 +601,25 @@ export default function CreatorDashboardScreen() {
                           'Ad sets deployed across Instagram and Facebook.'
                         )
                       }
-                      style={[styles.simBtn, styles.simPromote]}
+                      style={[
+                        styles.simBtn,
+                        styles.simPromote,
+                        isDark && {
+                          backgroundColor: 'rgba(59, 130, 246, 0.16)',
+                          borderColor: '#2563EB',
+                        },
+                      ]}
+                      activeOpacity={0.7}
                     >
-                      <Megaphone size={12} color={Colors.primary} />
-                      <Text style={styles.simBtnText}>Launch Distribution</Text>
+                      <Megaphone size={14} color={isDark ? '#93C5FD' : '#1E40AF'} />
+                      <Text
+                        style={[
+                          styles.simPromoteText,
+                          isDark && { color: '#93C5FD' },
+                        ]}
+                      >
+                        Launch Distribution
+                      </Text>
                     </TouchableOpacity>
                   )}
 
@@ -524,10 +632,25 @@ export default function CreatorDashboardScreen() {
                           'All impressions delivered. Audit report generated.'
                         )
                       }
-                      style={[styles.simBtn, styles.simComplete]}
+                      style={[
+                        styles.simBtn,
+                        styles.simComplete,
+                        isDark && {
+                          backgroundColor: 'rgba(148, 163, 184, 0.16)',
+                          borderColor: '#64748B',
+                        },
+                      ]}
+                      activeOpacity={0.7}
                     >
-                      <FileText size={12} color={Colors.success} />
-                      <Text style={styles.simBtnText}>Finalize Report</Text>
+                      <FileText size={14} color={isDark ? '#E2E8F0' : '#0F172A'} />
+                      <Text
+                        style={[
+                          styles.simCompleteText,
+                          isDark && { color: '#E2E8F0' },
+                        ]}
+                      >
+                        Finalize Report
+                      </Text>
                     </TouchableOpacity>
                   )}
 
@@ -540,10 +663,25 @@ export default function CreatorDashboardScreen() {
                           'Revised citations verified.'
                         )
                       }
-                      style={[styles.simBtn, styles.simApprove]}
+                      style={[
+                        styles.simBtn,
+                        styles.simApprove,
+                        isDark && {
+                          backgroundColor: 'rgba(16, 185, 129, 0.16)',
+                          borderColor: '#059669',
+                        },
+                      ]}
+                      activeOpacity={0.7}
                     >
-                      <CheckCircle size={12} color={Colors.success} />
-                      <Text style={styles.simBtnText}>Accept Revisions</Text>
+                      <CheckCircle size={14} color={isDark ? '#6EE7B7' : '#065F46'} />
+                      <Text
+                        style={[
+                          styles.simApproveText,
+                          isDark && { color: '#6EE7B7' },
+                        ]}
+                      >
+                        Accept Revisions
+                      </Text>
                     </TouchableOpacity>
                   )}
                 </View>
@@ -695,8 +833,9 @@ const styles = StyleSheet.create({
   },
   cardActionsRow: {
     flexDirection: 'row',
-    gap: 8,
-    marginTop: 8,
+    alignItems: 'center',
+    gap: 10,
+    marginTop: 10,
   },
   cardBtn: {
     flex: 1,
@@ -705,9 +844,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 5,
-    paddingHorizontal: 12,
-    paddingVertical: 7,
+    gap: 6,
+    minHeight: 38,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
     borderRadius: Radii.sm,
     borderWidth: 1,
   },
@@ -716,52 +856,83 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   demoReviewSection: {
-    marginTop: 10,
-    paddingTop: 8,
-    borderTopWidth: 1,
-    borderTopColor: Colors.borderLight,
+    marginTop: 12,
+    padding: 10,
+    borderRadius: Radii.md,
+    borderWidth: 1,
+  },
+  demoReviewHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  demoReviewTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
   },
   demoReviewLabel: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '700',
-    color: Colors.textMuted,
-    textTransform: 'uppercase',
-    marginBottom: 6,
+    letterSpacing: 0.3,
+  },
+  demoReviewSub: {
+    fontSize: 10,
+    fontWeight: '500',
   },
   demoBtnRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 6,
+    alignItems: 'center',
+    gap: 8,
   },
   simBtn: {
+    flex: 1,
+    minHeight: 40,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: 8,
-    paddingVertical: 5,
-    borderRadius: Radii.xs,
+    justifyContent: 'center',
+    gap: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 9,
+    borderRadius: Radii.sm,
     borderWidth: 1,
   },
   simApprove: {
-    backgroundColor: Colors.successMuted,
-    borderColor: '#BBF7D0',
+    backgroundColor: '#ECFDF5',
+    borderColor: '#6EE7B7',
+  },
+  simApproveText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#065F46',
   },
   simChanges: {
-    backgroundColor: Colors.warningMuted,
-    borderColor: '#FDE68A',
+    backgroundColor: '#FFFBEB',
+    borderColor: '#FCD34D',
+  },
+  simChangesText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#92400E',
   },
   simPromote: {
-    backgroundColor: Colors.accentMuted,
-    borderColor: '#BFDBFE',
+    backgroundColor: '#EFF6FF',
+    borderColor: '#93C5FD',
+  },
+  simPromoteText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#1E40AF',
   },
   simComplete: {
-    backgroundColor: Colors.surfaceSubtle,
-    borderColor: Colors.borderDark,
+    backgroundColor: '#F8FAFC',
+    borderColor: '#CBD5E1',
   },
-  simBtnText: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: Colors.textPrimary,
+  simCompleteText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#0F172A',
   },
   emptyCard: {
     backgroundColor: Colors.surface,

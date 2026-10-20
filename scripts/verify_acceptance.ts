@@ -909,6 +909,61 @@ async function runAcceptanceTests() {
     `Generated audience: "${autoAudienceRes.stagedData?.intendedAudience}"`
   );
 
+  // TEST 15f6 — "Fill according to the title" generates context-relevant summary matching title topic (Clean Waters)
+  const contextualSummaryRes = await ReachieService.processUserMessage(
+    'Fill according to the title',
+    [],
+    {
+      currentRoute: '/create',
+      activeDraft: null,
+      pendingAction: null,
+      campaignCreationStage: 'asking_summary',
+      stagedCampaignData: {
+        currentStep: 2,
+        title: 'Clean Waters, Healthy Future',
+        category: 'Environment',
+      },
+    }
+  );
+  assert(
+    Boolean(
+      contextualSummaryRes.stagedData?.summary &&
+        contextualSummaryRes.stagedData?.summary.toLowerCase().includes('water') &&
+        !contextualSummaryRes.stagedData?.summary.toLowerCase().includes('rural school') &&
+        contextualSummaryRes.nextStage === 'asking_story'
+    ),
+    'TEST 15f6 — Delegation Contextual Relevance: "Fill according to the title" generates water/environment summary for "Clean Waters, Healthy Future"',
+    `Generated summary: "${contextualSummaryRes.stagedData?.summary}"`
+  );
+
+  // TEST 15f7 — "Fill according to the title" generates context-relevant story matching title topic
+  const contextualStoryRes = await ReachieService.processUserMessage(
+    'Fill according to the title',
+    [],
+    {
+      currentRoute: '/create',
+      activeDraft: null,
+      pendingAction: null,
+      campaignCreationStage: 'asking_story',
+      stagedCampaignData: {
+        currentStep: 2,
+        title: 'Clean Waters, Healthy Future',
+        category: 'Environment',
+        summary: contextualSummaryRes.stagedData?.summary,
+      },
+    }
+  );
+  assert(
+    Boolean(
+      contextualStoryRes.stagedData?.whatItIsAbout &&
+        contextualStoryRes.stagedData?.whatItIsAbout.toLowerCase().includes('water') &&
+        !contextualStoryRes.stagedData?.whatItIsAbout.toLowerCase().includes('rural school') &&
+        contextualStoryRes.nextStage === 'asking_cover'
+    ),
+    'TEST 15f7 — Delegation Contextual Relevance: "Fill according to the title" generates water story and advances to Step 3: Visuals',
+    `Generated story: "${contextualStoryRes.stagedData?.whatItIsAbout}"`
+  );
+
   console.log('\n====================================================');
   console.log(`SUMMARY: ${passed} PASSED, ${failed} FAILED`);
   console.log('====================================================\n');
