@@ -357,7 +357,7 @@ export default function LoginScreen() {
               activeOpacity={0.7}
               hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             >
-              <ArrowLeft size={20} color="#0F172A" />
+              <ArrowLeft size={20} color="#0F172A" stroke="#0F172A" strokeWidth={2.2} />
             </TouchableOpacity>
             <Text style={styles.topBarTitle}>
               {isSignUp ? 'Create Account' : 'Account Access'}
@@ -369,9 +369,9 @@ export default function LoginScreen() {
           <View style={styles.header}>
             <View style={styles.iconCircle}>
               {isSignUp ? (
-                <UserPlus size={24} color="#1D3557" />
+                <UserPlus size={24} color="#1D3557" stroke="#1D3557" strokeWidth={2.2} />
               ) : (
-                <Shield size={24} color="#1D3557" />
+                <Shield size={24} color="#1D3557" stroke="#1D3557" strokeWidth={2.2} />
               )}
             </View>
             <Text style={styles.title}>
@@ -476,7 +476,7 @@ export default function LoginScreen() {
             <View style={styles.inputGroup}>
               <Text style={styles.inputLabel}>Email Address</Text>
               <View style={[styles.inputWrap, error && email && !validateEmail(email.trim()) && styles.inputWrapError]}>
-                <Mail size={18} color="#64748B" style={styles.inputIcon} />
+                <Mail size={18} color="#475569" stroke="#475569" strokeWidth={2} style={styles.inputIcon} />
                 <TextInput
                   style={styles.input}
                   placeholder="name@example.com"
@@ -512,7 +512,7 @@ export default function LoginScreen() {
                 )}
               </View>
               <View style={styles.inputWrap}>
-                <Lock size={18} color="#64748B" style={styles.inputIcon} />
+                <Lock size={18} color="#475569" stroke="#475569" strokeWidth={2} style={styles.inputIcon} />
                 <TextInput
                   style={[styles.input, { flex: 1 }]}
                   placeholder={isSignUp ? 'Min 6 characters' : '••••••••••••'}
@@ -533,9 +533,9 @@ export default function LoginScreen() {
                   hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                 >
                   {showPassword ? (
-                    <EyeOff size={18} color="#64748B" />
+                    <EyeOff size={18} color="#475569" stroke="#475569" strokeWidth={2} />
                   ) : (
-                    <Eye size={18} color="#64748B" />
+                    <Eye size={18} color="#475569" stroke="#475569" strokeWidth={2} />
                   )}
                 </TouchableOpacity>
               </View>
@@ -554,7 +554,7 @@ export default function LoginScreen() {
                   styles.inputWrap,
                   confirmPassword.length > 0 && password !== confirmPassword && styles.inputWrapError,
                 ]}>
-                  <Lock size={18} color="#64748B" style={styles.inputIcon} />
+                  <Lock size={18} color="#475569" stroke="#475569" strokeWidth={2} style={styles.inputIcon} />
                   <TextInput
                     style={[styles.input, { flex: 1 }]}
                     placeholder="Re-enter password"
@@ -574,9 +574,9 @@ export default function LoginScreen() {
                     hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                   >
                     {showConfirmPassword ? (
-                      <EyeOff size={18} color="#64748B" />
+                      <EyeOff size={18} color="#475569" stroke="#475569" strokeWidth={2} />
                     ) : (
-                      <Eye size={18} color="#64748B" />
+                      <Eye size={18} color="#475569" stroke="#475569" strokeWidth={2} />
                     )}
                   </TouchableOpacity>
                 </View>

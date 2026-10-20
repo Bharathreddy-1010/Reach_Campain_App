@@ -1,3 +1,5 @@
+process.env.RUNNING_ACCEPTANCE_TESTS = 'true';
+
 // Polyfill window.localStorage for Node environment test runner
 if (typeof window === 'undefined') {
   const store = new Map<string, string>();

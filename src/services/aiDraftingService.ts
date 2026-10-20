@@ -124,7 +124,7 @@ export const AIDraftingService = {
     const apiKey =
       (typeof process !== 'undefined' && process.env?.EXPO_PUBLIC_GROQ_API_KEY) ||
       (typeof process !== 'undefined' && process.env?.GROQ_API_KEY) ||
-      '';
+      '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';
 
     // 1. Live generation via Groq API
     if (apiKey && prompt.trim()) {
@@ -392,6 +392,23 @@ Respond ONLY with a strict JSON object with these EXACT keys:
       callToAction = 'Read Market Report';
       coverImage =
         'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1000&auto=format&fit=crop&q=80';
+    } else if (
+      lower.includes('school') ||
+      lower.includes('educat') ||
+      lower.includes('child') ||
+      lower.includes('student') ||
+      lower.includes('learn') ||
+      lower.includes('teach') ||
+      lower.includes('book')
+    ) {
+      category = 'Education';
+      title = 'Digital Learning & Education for Rural Students';
+      creatorName = 'Rural Education Alliance';
+      summary = prompt.length > 20 ? prompt.slice(0, 140) : 'Equipping underprivileged students with digital learning tools and books.';
+      adHeadline = 'Support education for rural children.';
+      callToAction = 'Support Education';
+      coverImage =
+        'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1000&auto=format&fit=crop&q=80';
     } else {
       const cleaned = prompt.trim().replace(/[.\n].*$/, '');
       if (cleaned.length > 5 && cleaned.length <= 60) {
